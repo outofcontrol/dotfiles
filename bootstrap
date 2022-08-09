@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# bootstrap installs things.
+
+function main() {
+	echo;
+	echo 'Bootstrap your terminal'
+	echo '-----------------------'
+	read -p 'This will reset your terminal. Are you sure you want to continue? (y/N): ' reply
+
+	if [[ $reply =~ ^[Yy]$ ]]; then bootstrapTerminal; fi
+}
+
+function bootstrapTerminal() {	
+	echo "Please enter your password so that we may run all scripts:"
+	sudo -v
+	source $HOME/.dotfiles/installscript
+}
+
+main $@;

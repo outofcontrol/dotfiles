@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+# Transform long options to short ones
+function main() {
+  # Keep-alive: update existing `sudo` time stamp until `.macos-defaults` has finished
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+  read -p 'Create symlinks? (y/N): ' symlinks
+  read -p 'Create directories? (y/N): ' directories
+
+  read -p 'Setup brew? (y/N): ' setupbrew
+  read -p 'Run setup scripts? (y/N): ' setupscripts
+
+  if [[ $symlinks =~ ^[Yy]$ ]];then mkLinks; fi
+  if [[ $directories =~ ^[Yy]$ ]];then mkDirectories;fi
+
+  if [[ $setupbrew =~ ^[Yy]$ ]];then brewSetup;fi
+  if [[ $setupscripts =~ ^[Yy]$ ]];then macOSSetupScripts;fi
+
+  echo;
+  echo "Done. Some changes require a logout/restart to take effect."
+}
+
+function mkLinks() {
+  mkLink $HOME/.dotfiles/shell/ideavimrc $HOME/.ideavimrc
+  mkLink $HOME/.dotfiles/shell/bin $HOME/bin
+  mkLink $HOME/.dotfiles/shell/vim $HOME/.vim
+  mkLink $HOME/.dotfiles/shell/vimrc $HOME/.vimrc
+  mkLink $HOME/.dotfiles/shell/zshrc $HOME/.zshrc
+  mkLink $HOME/.dotfiles/shell/zprofile $HOME/.zprofile
+  mkLink $HOME/.dotfiles/shell/ideavimrc $HOME/.ideavimrc
+  mkLink $HOME/.dotfiles/shell/hushlogin $HOME/.hushlogin
+  mkLink $HOME/.dotfiles/shell/gitconfig $HOME/.gitconfig
+  mkLink $HOME/.dotfiles/shell/global-gitignore $HOME/.global-gitignore
+  mkLink $HOME/.dotfiles/misc/oh-my-zsh-custom/cobalt2.zsh-theme $HOME/.oh-my-zsh/themes/cobalt2.zsh-theme
+}
+
+function mkDirectories() {
+  mkDirectory $HOME/.nvm
+  mkDirectory $HOME/.npm-packages
+  mkDirectory $HOME/opt/local/bin
+  mkDirectory $HOME/.dotfiles-custom
+}
+
+function brewSetup() {
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    $HOME/.dotfiles/setup/brew-defaults.sh
+  fi
+}
+
+function macOSSetupScripts() {
+  $HOME/.dotfiles/setup/git-defaults.sh
+
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    $HOME/.dotfiles/setup/macos-defaults.sh
+  fi
+}
+
+function mkLink() {
+  if [[ -f "$2" && ! -L "$2" ]]; then
+    echo "File already exists: $2"
+  else
+    if [[ -L "$2" ]]; then
+      rm $2
+    fi
+    /bin/ln -s $1 $2
+  fi
+} 
+
+function mkDirectory() {
+  if [[ -d "$1" ]]; then
+    echo "Directory already exists: $1"
+  else
+    echo "Making Directory: $1"
+    /bin/mkdir -p $1
+  fi
+}
+
+main $@;

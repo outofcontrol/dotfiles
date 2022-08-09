@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/Volumes/OOC_B5/outofcontrol/Code/ansible/roles/nginx'
+let g:netrw_dirhist_2='/private/etc/postfix'
+let g:netrw_dirhist_3='/Volumes/OOC_B5/outofcontrol/Code/Github/khronosgroup.github.io'

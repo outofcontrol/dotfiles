@@ -1,0 +1,57 @@
+
+# System
+alias reloadcli="source $HOME/.zshrc"
+alias pubkey="/bin/cat ~/.ssh/id_rsa.pub | pbcopy"
+alias edithost="sudo pico /etc/hosts"
+alias fuck='sudo $(history -p \!\!)'
+alias finder="open -a 'Finder' ."
+alias brewup='brew update && brew upgrade'
+
+# Docker
+alias docker-composer='docker-compose'
+alias dockerhalt='docker stop $(docker ps -a -q)'
+alias dockerrm='docker rm $(docker ps -a -q)'
+
+# System
+alias top='top -o cpu'
+alias cc='clear'
+alias spot='mdfind -onlyin `pwd`'
+alias cleansvn='find . -name ".svn" -exec rm -rf {} \;'
+
+# Laravel
+alias art='php artisan'
+alias tink='php artisan tinker'
+alias migrate='php artisan migrate'
+
+# Git
+alias gc='git add . && git commit -m $1'
+alias nah='git reset --hard && git clean -df'
+alias gl='git log --all --graph --decorate --oneline --simplify-by-decoration'
+
+# Personal
+alias learning='cd /Users/outofcontrol/Dropbox\ \(Personal\)/Documents/Learning/khronos;pwd'
+alias ggh='cd /Users/outofcontrol/Code/GitHub;pwd'
+alias ggl='cd /Users/outofcontrol/Code/GitLab;pwd'
+alias ib="~/Desktop/Inbox"
+alias ob="~/Desktop/Outbox"
+
+# Server Aliases
+# alias manoli='ssh u52672073@home278897143.1and1-data.host'
+
+# KHR
+alias gerrit='ssh -p 29418 khronos2@gerrit.khronos.org gerrit'
+
+# Ansible
+alias glflushcache='ansible opengl -a "echo “flush_all” | nc localhost 11211"'
+
+#AWS
+alias s3khr='/opt/homebrew/bin/s3cmd -c .s3cfg-khr'
+alias awsprofiles="cat ~/.aws/credentials | grep -o '\[[^]]*\]'"
+
+# Ansible
+alias khraupdate='ansible-playbook -i /opt/homebrew/etc/ansible/hosts /opt/homebrew/etc/ansible/playbooks/khrubuntuupdate.yml'
+alias khraisup='ansible-playbook -i /opt/homebrew/etc/ansible/hosts /opt/homebrew/etc/ansible/playbooks/khrubuntuisup.yml'
+alias isoaupdate='ansible-playbook -i /opt/homebrew/etc/ansible/hosts /opt/homebrew/etc/ansible/playbooks/isoubuntuupdate.yml'
+alias isoaisup='ansible-playbook -i /opt/homebrew/etc/ansible/hosts /opt/homebrew/etc/ansible/playbooks/isoubuntuisup.yml'
+alias ompaisup='ansible-playbook -i /opt/homebrew/etc/ansible/hosts /opt/homebgrew/etc/ansible/playbooks/ompubuntuisup.yml'
+alias ompaupdate='ansible-playbook -i /opt/homebew/etc/ansible/hosts /opt/homebrew/etc/ansible/playbooks/ompubuntuupdate.yml'
