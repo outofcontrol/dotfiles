@@ -25,3 +25,5 @@ This repository would not have become reality without the inspiration and hard w
 - https://github.com/anishathalye/dotbot
 - https://wilsonmar.github.io/dotfiles/
 - https://macos-defaults.com
+- https://gist.github.com/gokure/3488458#file-gitconfig-L17
+- https://git-scm.com/docs/git-config

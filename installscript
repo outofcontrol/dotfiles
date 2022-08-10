@@ -22,16 +22,14 @@ function main() {
 }
 
 function mkLinks() {
-  mkLink $HOME/.dotfiles/shell/ideavimrc $HOME/.ideavimrc
   mkLink $HOME/.dotfiles/shell/bin $HOME/bin
   mkLink $HOME/.dotfiles/shell/vim $HOME/.vim
   mkLink $HOME/.dotfiles/shell/vimrc $HOME/.vimrc
   mkLink $HOME/.dotfiles/shell/zshrc $HOME/.zshrc
+  mkLink $HOME/.dotfiles/config/git $HOME/.config/git
   mkLink $HOME/.dotfiles/shell/zprofile $HOME/.zprofile
   mkLink $HOME/.dotfiles/shell/ideavimrc $HOME/.ideavimrc
   mkLink $HOME/.dotfiles/shell/hushlogin $HOME/.hushlogin
-  mkLink $HOME/.dotfiles/shell/gitconfig $HOME/.gitconfig
-  mkLink $HOME/.dotfiles/shell/global-gitignore $HOME/.global-gitignore
   mkLink $HOME/.dotfiles/misc/oh-my-zsh-custom/cobalt2.zsh-theme $HOME/.oh-my-zsh/themes/cobalt2.zsh-theme
 }
 
@@ -40,6 +38,7 @@ function mkDirectories() {
   mkDirectory $HOME/.npm-packages
   mkDirectory $HOME/opt/local/bin
   mkDirectory $HOME/.dotfiles-custom
+  mkDirectory $HOME/.config/git
 }
 
 function brewSetup() {
