@@ -4,7 +4,7 @@
 # Mathias Bynens https://mths.be/macos
 # Freek Van der Herten https://github.com/freekmurze/dotfiles
 
-echo 'start macos/set-defaults.sh'
+echo 'Running macos/set-defaults.sh ...'
 
 COMPUTER_NAME="OOC MBP"
 # Set the timezone; see `systemsetup -listtimezones` for other values
@@ -26,9 +26,12 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # Set computer name (as done via System Preferences → Sharing)
 sudo scutil --set ComputerName "${COMPUTER_NAME}"
-sudo scutil --set HostName "${COMPUTER_NAME}"
-sudo scutil --set LocalHostName "${COMPUTER_NAME}"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "${COMPUTER_NAME}"
+
+USERNAME=$(scutil <<< "show State:/Users/ConsoleUser" | awk '/Name :/ && ! /loginwindow/ { print $3 }')
+sudo /usr/sbin/scutil --set HostName "$user_name".domain
+sudo /usr/sbin/scutil --set LocalHostName "${USERNAME}"
+dscacheutil -flushcache
 
 # Set language and text formats
 # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
@@ -39,7 +42,7 @@ defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 defaults write NSGlobalDomain AppleMetricUnits -bool true
 
 # Set the timezone; see `systemsetup -listtimezones` for other values
-systemsetup -settimezone $TIMEZONE > /dev/null
+systemsetup -settimezone "${TIMEZONE}" > /dev/null
 
 # Animate opening applications: false = NO 2022-07
 defaults write com.apple.dock launchanim -bool false
@@ -85,9 +88,6 @@ defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
 # Disable automatic termination of inactive apps
 defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
-# Disable the crash reporter
-# defaults write com.apple.CrashReporter DialogType -string "none"
-
 # Reveal IP address, hostname, OS version, etc. when clicking the clock
 # in the login window
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
@@ -103,17 +103,6 @@ defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
 
  # Disable automatic period substitution as it’s annoying when typing code
 defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
-
-
-###############################################################################
-# SSD-specific tweaks                                                         #
-###############################################################################
-
-# Disable hibernation (speeds up entering sleep mode)
-sudo pmset -a hibernatemode 0
-
-# Disable the sudden motion sensor as it’s not useful for SSDs
-sudo pmset -a sms 0
 
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
@@ -178,7 +167,7 @@ defaults write -g AppleShowAllExtensions -bool true
 defaults write com.apple.finder QLEnableTextSelection -bool true
 
 # Display full POSIX path as Finder window title
-defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool false
 
 # When performing a search, search the current folder by default
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
@@ -265,7 +254,7 @@ defaults write com.apple.screencapture location -string "${HOME}/Desktop"
 defaults write com.apple.screencapture "include-date" -bool false
 
 # Change the default screenshot file name
-defaults write com.apple.screencapture "name" -string "screenshot"
+defaults write com.apple.screencapture "name" -string "${USERNAME}-screenshot"
 
 # Save screenshots in lossless (bigger) PNG format
 # rather than defaul JPG (other options: BMP, GIF, JPG, PDF, TIFF)
@@ -444,30 +433,18 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 ###############################################################################
 
 # Restart automatically if the computer freezes
-sudo systemsetup -setrestartfreeze on
+# See: https://github.com/LnL7/nix-darwin/issues/359 
+# Maybe one day it will work again?
+sudo systemsetup -setrestartfreeze On 2>/dev/null
 
-# Never go into computer sleep mode
-# sudo systemsetup -setcomputersleep Off > /dev/null
-
-# Disable hibernation (speeds up entering sleep mode)
-# Hibernation saves memory to disk:
-# sudo pmset -a hibernatemode 0
-
-# Remove the sleep image file to save disk space
-# sudo rm /private/var/vm/sleepimage
-# Create a zero-byte file instead…
-# sudo touch /private/var/vm/sleepimage
-# …and make sure it can’t be rewritten
-# sudo chflags uchg /private/var/vm/sleepimage
-# Disable the sudden motion sensor as it’s not useful for SSDs
-# sudo pmset -a sms 0
-
-# Set external drives to never sleep
-sudo pmset -c spindown 0
+# Set external drives to never sleep only on Desktops
+if [[ "$(sysctl -n hw.model | grep "Book")" == "" ]];
+then 
+	sudo pmset -c disksleep 0;
+fi
 
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
-
 
 ###############################################################################
 # Kill affected applications                                                  #
