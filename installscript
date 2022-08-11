@@ -48,8 +48,6 @@ function brewSetup() {
 }
 
 function macOSSetupScripts() {
-  $HOME/.dotfiles/setup/git-defaults.sh
-
   if [[ "$OSTYPE" == "darwin"* ]]; then
     $HOME/.dotfiles/setup/macos-defaults.sh
   fi
