@@ -415,7 +415,7 @@ defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
 ###############################################################################
 
 # Disable smart quotes everywhere 2022-07
-defaults read NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 
 # Disable smart dashes everywhere 2022-07
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
@@ -435,7 +435,7 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 # Restart automatically if the computer freezes
 # See: https://github.com/LnL7/nix-darwin/issues/359 
 # Maybe one day it will work again?
-sudo systemsetup -setrestartfreeze On 2>/dev/null
+sudo systemsetup -setrestartfreeze On > /dev/null 2>&1
 
 # Set external drives to never sleep only on Desktops
 if [[ "$(sysctl -n hw.model | grep "Book")" == "" ]];

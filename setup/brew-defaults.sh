@@ -1,6 +1,9 @@
 #!/usr/bin/env zsh
 
-# Install zsh
+echo 'Update submodules'
+echo '-----------------'
+git submodule update --init --recursive
+
 echo 'Install oh-my-zsh'
 echo '-----------------'
 rm -rf $HOME/.oh-my-zsh
@@ -180,5 +183,5 @@ brew cleanup
 
 echo '++++++++++++++++++++++++++++++'
 echo 'All done!'
-echo 'Make a .dotfiles-custom/shell/.aliases for your personal commands'
+echo 'Put your custom aliases, exports and functions in .dotfiles-custom/shell'
 echo '++++++++++++++++++++++++++++++'
