@@ -176,6 +176,7 @@ brew install awscli
 
 brew install curl
 
+brew cleanup
 
 echo '++++++++++++++++++++++++++++++'
 echo 'All done!'
