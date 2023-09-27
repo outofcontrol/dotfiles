@@ -1,7 +1,3 @@
-function weather() {
-   curl -4 wttr.in/${1:-montreal}
-}
-
 # Run tests
 function p() {
    if [ -f vendor/bin/pest ]; then
@@ -10,6 +6,13 @@ function p() {
       vendor/bin/phpunit "$@"
    fi
 }
+
+# PHPStorm function 
+# https://www.jetbrains.com/help/phpstorm/working-with-the-ide-features-from-command-line.html#toolbox
+function phpstorm() {
+   open -na "PhpStorm.app" --args "$@"
+}
+
 
 function pf() {
    if [ -f vendor/bin/pest ]; then
@@ -79,7 +82,7 @@ function weather() {
    city="$1"
 
    if [ -z "$city" ]; then
-      city="Antwerp"
+      city="montreal"
    fi
 
    eval "curl http://wttr.in/${city}"
