@@ -36,8 +36,6 @@
     set-upstream = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
 [apply]
     whitespace = nowarn
-[commit]
-    template = ~/.gitmessage
 [color]
     diff = auto
     status = auto
@@ -48,7 +46,7 @@
     untracked = red
     branch = yellow black bold ul
 [core]
-    excludesfile = ~/.gitignore_global
+    excludesfile = ~/.config/git/ignore
     editor = vim
     autocrlf = input
     ignorecase = false
