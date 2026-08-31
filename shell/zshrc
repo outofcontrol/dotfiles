@@ -19,6 +19,7 @@ export PATH="$BREW_PREFIX/bin:$BREW_PREFIX/sbin:$HOME/.dotfiles/bin:$HOME/.compo
 # ============================================================
 fpath+=("$HOME/.zsh/completions")
 fpath+=("$BREW_PREFIX/share/zsh/site-functions")
+fpath+=("$BREW_PREFIX/share/zsh-completions")
 
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qNmh-24) ]]; then

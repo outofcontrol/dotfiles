@@ -57,7 +57,7 @@ echo '=========================='
 
 echo 'Install some nice quicklook plugins'
 echo '-----------------------------------'
-brew install --cask qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzip  suspicious-package
+brew install --cask qlmarkdown quicklook-json betterzip suspicious-package
 
 echo 'Install vim'
 echo '-----------'
