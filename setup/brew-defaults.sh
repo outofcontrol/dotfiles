@@ -4,11 +4,6 @@ echo 'Update submodules'
 echo '-----------------'
 git submodule update --init --recursive
 
-echo 'Install oh-my-zsh'
-echo '-----------------'
-rm -rf $HOME/.oh-my-zsh
-curl -L https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-
 echo "Install xcode-select"
 echo '--------------------'
 sudo xcode-select --install > /dev/null 2>&1
@@ -19,29 +14,13 @@ sudo rm -rf /opt/local/Cellar /opt/local/.git && brew cleanup
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-echo 'Install NVM'
-echo '-----------'
-brew uninstall --ignore-dependencies node 
-brew uninstall --force node 
-brew install nvm 
-nvm install node
-nvm install 12
-nvm install 14
-nvm install 16
-nvm use 16
-
-echo 'Configure npm'
-echo '-------------'
-npm config set prefix "${HOME}/.npm-packages"
-
-
 echo 'Install php'
 echo '-----------'
 brew tap shivammathur/php
-brew install shivammathur/php/php@5.6
-brew install shivammathur/php/php@7.4
-brew install shivammathur/php/php@8.1
-brew link --overwrite --force php@8.1
+brew install shivammathur/php/php@8.3
+brew install shivammathur/php/php@8.4
+brew install shivammathur/php/php@8.5
+brew link --overwrite --force php@8.4
 
 echo 'Install composer'
 echo '----------------'
@@ -58,6 +37,16 @@ php composer-setup.php
 rm composer-setup.php
 sudo mv composer.phar /opt/local/bin/composer
 
+# Install zsh-patina - new syntax highlight
+brew install zsh-patina
+echo 'eval "$(/opt/homebrew/opt/zsh-patina/bin/zsh-patina activate)"' >> ~/.zshrc
+
+brew install atuin
+if ! command -v atuin >/dev/null 2>&1; then
+  curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+  atuin import auto
+fi
+
 echo 'Install laravel valet'
 echo '---------------------'
 composer global require laravel/valet
@@ -69,10 +58,6 @@ echo '=========================='
 echo 'Install some nice quicklook plugins'
 echo '-----------------------------------'
 brew install --cask qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzip  suspicious-package
-
-echo 'Install iTerm2'
-echo '--------------'
-brew install --cask iterm2
 
 echo 'Install vim'
 echo '-----------'
@@ -156,7 +141,6 @@ brew install yarn
 echo 'Install zsh-autosuggestions, syntax-highlighting and completions'
 echo '---------------------------'
 brew install zsh-autosuggestions
-brew install zsh-syntax-highlighting
 brew install zsh-completions
 brew install zsh-vi-mode
 
@@ -181,6 +165,10 @@ brew install awscli
 brew install curl
 
 brew cleanup
+
+brew install pure
+
+brew install fnm
 
 echo '++++++++++++++++++++++++++++++'
 echo 'All done!'

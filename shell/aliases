@@ -21,8 +21,3 @@ alias cleansvn='find . -name ".svn" -exec rm -rf {} \;'
 alias art='php artisan'
 alias tink='php artisan tinker'
 alias migrate='php artisan migrate'
-
-# Git
-alias gc='git add . && git commit -m $1'
-alias nah='git reset --hard && git clean -df'
-alias gl='git log --all --graph --decorate --oneline --simplify-by-decoration'
