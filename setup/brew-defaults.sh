@@ -170,6 +170,14 @@ brew install pure
 
 brew install fnm
 
+echo 'Install colima (Docker runtime) and the docker CLI/compose'
+echo '-----------------------------------------------------------'
+brew install colima docker docker-compose
+
+echo 'Install OpenTofu'
+echo '-----------------'
+brew install opentofu
+
 echo '++++++++++++++++++++++++++++++'
 echo 'All done!'
 echo 'Put your custom aliases, exports and functions in .dotfiles-custom/shell'
