@@ -295,9 +295,6 @@ defaults write com.apple.dock showhidden -bool true
 # Miscellaneous                                                            #
 ###############################################################################
 
-# Don’t display the annoying prompt when quitting iTerm 2022-07
-defaults write com.googlecode.iterm2 PromptOnQuit -bool false
-
 # Prevent Time Machine from prompting to use new hard drives as backup volume
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
