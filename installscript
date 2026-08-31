@@ -33,8 +33,6 @@ function mkLinks() {
 }
 
 function mkDirectories() {
-  mkDirectory $HOME/.nvm
-  mkDirectory $HOME/.npm-packages
   mkDirectory $HOME/opt/local/bin
   mkDirectory $HOME/.dotfiles-custom
   mkDirectory $HOME/.config/git

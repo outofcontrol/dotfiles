@@ -13,17 +13,16 @@ Two entry points, both interactive (they prompt with `read -p` for confirmation 
 
 Symlink targets (`mkLink` in `installscript`) map repo paths into `$HOME`:
 
-| Repo path                                 | Symlinked to                            |
-| ----------------------------------------- | --------------------------------------- |
-| `shell/bin`                               | `~/bin`                                 |
-| `shell/vim`                               | `~/.vim`                                |
-| `shell/vimrc`                             | `~/.vimrc`                              |
-| `shell/zshrc`                             | `~/.zshrc`                              |
-| `config/git`                              | `~/.config/git`                         |
-| `shell/zprofile`                          | `~/.zprofile`                           |
-| `shell/ideavimrc`                         | `~/.ideavimrc`                          |
-| `shell/hushlogin`                         | `~/.hushlogin`                          |
-| `misc/oh-my-zsh-custom/cobalt2.zsh-theme` | `~/.oh-my-zsh/themes/cobalt2.zsh-theme` |
+| Repo path         | Symlinked to     |
+| ----------------- | ---------------- |
+| `shell/bin`       | `~/bin`          |
+| `shell/vim`       | `~/.vim`         |
+| `shell/vimrc`     | `~/.vimrc`       |
+| `shell/zshrc`     | `~/.zshrc`       |
+| `config/git`      | `~/.config/git`  |
+| `shell/zprofile`  | `~/.zprofile`    |
+| `shell/ideavimrc` | `~/.ideavimrc`   |
+| `shell/hushlogin` | `~/.hushlogin`   |
 
 `mkLink` refuses to overwrite a real (non-symlink) file that already exists at the destination, but will happily replace an existing symlink.
 

@@ -26,6 +26,3 @@ export GREP_OPTIONS="--color=auto"
 # Do not auto update brew
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_ENV_HINTS=1
-
-# NVM
-export NVM_DIR=~/.nvm 
