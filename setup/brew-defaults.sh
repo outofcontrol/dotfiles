@@ -178,6 +178,15 @@ echo 'Install OpenTofu'
 echo '-----------------'
 brew install opentofu
 
+echo 'Install Brave Browser'
+echo '---------------------'
+brew install --cask brave-browser
+
+echo 'Install peon-ping (Claude Code notification hooks and skills)'
+echo '--------------------------------------------------------------'
+brew tap peonping/tap
+brew install peon-ping
+
 echo '++++++++++++++++++++++++++++++'
 echo 'All done!'
 echo 'Put your custom aliases, exports and functions in .dotfiles-custom/shell'

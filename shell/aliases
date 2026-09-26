@@ -7,7 +7,6 @@ alias finder="open -a 'Finder' ."
 alias brewup='brew update && brew upgrade'
 
 # Docker
-alias docker-composer='docker-compose'
 alias dockerhalt='docker stop $(docker ps -a -q)'
 alias dockerrm='docker rm $(docker ps -a -q)'
 
@@ -15,7 +14,6 @@ alias dockerrm='docker rm $(docker ps -a -q)'
 alias top='top -o cpu'
 alias cc='clear'
 alias spot='mdfind -onlyin `pwd`'
-alias cleansvn='find . -name ".svn" -exec rm -rf {} \;'
 
 # Laravel
 alias art='php artisan'

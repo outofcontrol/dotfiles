@@ -2,7 +2,7 @@
 
 My personal dotfiles. Probably not used by any other geeks at all.
 
-It contains the installation of some basic tools, some handy aliases and functions. Backups of settings are done via [GitHub](https://github.com/).
+It contains the installation of some basic tools, some handy aliases and functions, and the portable parts of my global Claude Code config (settings, skills, slash commands, MCP servers). Backups of settings are done via [GitHub](https://github.com/).
 
 You can install them by cloning the repository as `.dotfiles` in your home directory and running the bootstrap script.
 

@@ -30,6 +30,32 @@ function mkLinks() {
   mkLink $HOME/.dotfiles/shell/zprofile $HOME/.zprofile
   mkLink $HOME/.dotfiles/shell/ideavimrc $HOME/.ideavimrc
   mkLink $HOME/.dotfiles/shell/hushlogin $HOME/.hushlogin
+  mkClaudeLinks
+}
+
+# Claude Code keeps runtime state (sessions, caches, plugin installs, synced
+# skills) next to its config in ~/.claude, so the directory itself is never
+# symlinked. Only the files we own are linked in, one by one.
+function mkClaudeLinks() {
+  if [[ ! -d "$HOME/.dotfiles-custom/claude" ]]; then
+    echo "No ~/.dotfiles-custom/claude directory, skipping Claude Code links"
+    return
+  fi
+
+  mkDirectory $HOME/.claude/skills
+  mkDirectory $HOME/.claude/commands
+
+  mkLink $HOME/.dotfiles-custom/claude/settings.json $HOME/.claude/settings.json
+  mkLink $HOME/.dotfiles-custom/claude/CLAUDE.md $HOME/.claude/CLAUDE.md
+  mkLink $HOME/.dotfiles-custom/claude/statusline.sh $HOME/.claude/statusline.sh
+
+  for skill in $HOME/.dotfiles-custom/claude/skills/*/; do
+    mkLink "${skill%/}" "$HOME/.claude/skills/$(basename "$skill")"
+  done
+
+  for command in $HOME/.dotfiles-custom/claude/commands/*.md; do
+    mkLink "$command" "$HOME/.claude/commands/$(basename "$command")"
+  done
 }
 
 function mkDirectories() {
@@ -48,26 +74,28 @@ function macOSSetupScripts() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
     $HOME/.dotfiles/setup/macos-defaults.sh
     $HOME/.dotfiles/setup/misc-defaults.sh
+    $HOME/.dotfiles/setup/claude-defaults.sh
   fi
 }
 
+# Refuses to replace a real file or directory, but will replace an existing symlink.
 function mkLink() {
-  if [[ -f "$2" && ! -L "$2" ]]; then
+  if [[ -e "$2" && ! -L "$2" ]]; then
     echo "File already exists: $2"
   else
     if [[ -L "$2" ]]; then
-      rm $2
+      rm "$2"
     fi
-    /bin/ln -s $1 $2
+    /bin/ln -s "$1" "$2"
   fi
-} 
+}
 
 function mkDirectory() {
   if [[ -d "$1" ]]; then
     echo "Directory already exists: $1"
   else
     echo "Making Directory: $1"
-    /bin/mkdir -p $1
+    /bin/mkdir -p "$1"
   fi
 }
 

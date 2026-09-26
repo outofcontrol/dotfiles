@@ -23,14 +23,32 @@ Symlink targets (`mkLink` in `installscript`) map repo paths into `$HOME`:
 | `shell/zprofile`  | `~/.zprofile`    |
 | `shell/ideavimrc` | `~/.ideavimrc`   |
 | `shell/hushlogin` | `~/.hushlogin`   |
+| `~/.dotfiles-custom/claude/settings.json` | `~/.claude/settings.json` |
+| `~/.dotfiles-custom/claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
+| `~/.dotfiles-custom/claude/statusline.sh` | `~/.claude/statusline.sh` |
+| `~/.dotfiles-custom/claude/skills/<name>` | `~/.claude/skills/<name>` (one link per skill) |
+| `~/.dotfiles-custom/claude/commands/<name>.md` | `~/.claude/commands/<name>.md` (one link per command) |
 
-`mkLink` refuses to overwrite a real (non-symlink) file that already exists at the destination, but will happily replace an existing symlink.
+`mkLink` refuses to overwrite a real (non-symlink) file or directory that already exists at the destination, but will happily replace an existing symlink.
 
 Setup scripts (only run if the user opts in):
 
 - `setup/brew-defaults.sh` — installs Homebrew, PHP (8.3/8.4/8.5, links 8.4), Composer, Laravel Valet, and a long list of CLI tools/casks (vim, node, wget, httpie, sqlmap, awscli, ansible, doctl, atuin, pure prompt, fnm, zsh-vi-mode, etc).
 - `setup/macos-defaults.sh` — sets macOS system defaults (computer name, timezone, UI/UX prefs, ~460 lines, based on Mathias Bynens' / Freek Van der Herten's dotfiles).
 - `setup/misc-defaults.sh` — sets up Docker zsh completions and fetches oh-my-zsh's `git.plugin.zsh` standalone (no full oh-my-zsh framework).
+- `setup/claude-defaults.sh` — registers the user-scoped MCP servers declared in `~/.dotfiles-custom/claude/mcp.json` via `claude mcp add-json`, skipping any that already exist.
+
+## Claude Code config
+
+`~/.dotfiles-custom/claude/` holds the portable parts of the global Claude Code config. `~/.claude` itself is never symlinked because it also holds runtime state (sessions, caches, `plugins/`, `skills/synced/`, `hooks/peon-ping/`), and `~/.claude.json` is never tracked because it mixes account identifiers, per-project history and caches with the one thing we want from it (`mcpServers`).
+
+- `~/.dotfiles-custom/claude/settings.json` — permissions, sandbox, model, status line, enabled plugins. Paths use `~`, not an absolute home. The podman socket under `/var/folders/...` is machine-specific and will need editing on a new Mac.
+- `~/.dotfiles-custom/claude/CLAUDE.md` — global user instructions.
+- `~/.dotfiles-custom/claude/skills/` — only skills authored or vendored here. Skills provided by Homebrew formulas (peon-ping symlinks into `/opt/homebrew/opt/peon-ping`) and Claude's own `skills/synced/` are deliberately left out; peon-ping is installed by `brew-defaults.sh`.
+- `~/.dotfiles-custom/claude/commands/` — custom slash commands.
+- `~/.dotfiles-custom/claude/mcp.json` — MCP servers to register. Edit this and re-run `setup/claude-defaults.sh` rather than editing `~/.claude.json` by hand. Removing a server here does not unregister it (use `claude mcp remove`).
+
+Adding a new skill or command means dropping it into `~/.dotfiles-custom/claude/skills/` or `~/.dotfiles-custom/claude/commands/` and re-running the symlink step (or linking it by hand); `mkClaudeLinks` links whatever is present.
 
 ## Shell config structure
 
