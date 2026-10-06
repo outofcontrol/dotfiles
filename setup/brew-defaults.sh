@@ -108,7 +108,11 @@ brew install opentofu
 
 echo 'Install security and network tools'
 echo '----------------------------------'
-brew install gitleaks gnupg nmap mtr
+brew install gitleaks gnupg nmap mtr hcloud
+
+echo 'Install media and document tools'
+echo '--------------------------------'
+brew install pandoc imagemagick ffmpeg exiftool pipx
 
 echo 'Install GNU userland (Linux compatible ls, find, sed, grep, awk, tar)'
 echo '----------------------------------------------------------------------'
