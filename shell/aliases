@@ -1,3 +1,9 @@
+# Colour for ls and grep (GNU and BSD both accept these flags on macOS 13+).
+# GREP_OPTIONS is gone: GNU grep 3.6+ ignores it.
+alias ls='ls --color=auto'
+alias ll='ls -lah --color=auto'
+alias grep='grep --color=auto'
+
 # System
 alias pubkey="/bin/cat ~/.ssh/id_rsa.pub | pbcopy"
 alias finder="open -a 'Finder' ."
