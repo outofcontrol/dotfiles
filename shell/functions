@@ -28,7 +28,7 @@ function mkd() {
 
 # Show the common DNS records for a domain in one listing.
 # Queries each type separately because most resolvers now refuse ANY.
-function digga() {
+function dns() {
     local type
     for type in A AAAA CNAME MX NS TXT SOA; do
         dig +noall +answer "$1" "$type"
