@@ -1,10 +1,7 @@
 # System
-alias reloadcli="source $HOME/.zshrc"
 alias pubkey="/bin/cat ~/.ssh/id_rsa.pub | pbcopy"
-alias fuck='sudo $(history -p \!\!)'
 alias finder="open -a 'Finder' ."
 alias brewup='brew update && brew upgrade'
-alias top='top -o cpu'
 
 # Laravel
 alias art='php artisan'
