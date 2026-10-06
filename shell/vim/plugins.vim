@@ -3,9 +3,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
-Bundle 'chase/vim-ansible-yaml'
-Bundle 'ctrlpvim/ctrlp.vim'
-Bundle 'scrooloose/nerdtree'
+Plugin 'chase/vim-ansible-yaml'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
 
 
 call vundle#end()            " required

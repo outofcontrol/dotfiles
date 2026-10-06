@@ -1,6 +1,6 @@
-[user]
-    name = "James Riordon"
-    email = jriordon@outofcontrol.ca
+# User identity lives in the private dotfiles, see ~/.dotfiles-custom/git/config
+[include]
+    path = ~/.dotfiles-custom/git/config
 [apply]
     whitespace = nowarn
 [color]
@@ -21,14 +21,6 @@
     prune = true
 [format]
     pretty = %C(yellow)%H%Creset %s %C(red)(%an, %cr)%Creset
-#[http]
-#    proxy = http://127.0.0.1:1081
-#[https]
-#    proxy = http://127.0.0.1:1081
-#[includeIf "gitdir:~/work/"]
-#   path = ~/.gitinc/work/config
-#[includeIf "gitdir:~/play/"]
-#   path = ~/.gitinc/play/config
 [init]
     defaultBranch = main
 [i18n]
@@ -47,8 +39,3 @@
 [difftool "sourcetree"]
     cmd = opendiff \"$LOCAL\" \"$REMOTE\"
     path =
-#[mergetool "sourcetree"]
-#    cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-#    trustExitCode = true
-#[github]
-#    name = <Your github account>

@@ -1,0 +1,7 @@
+[
+  {
+    "label": "run_php",
+    "command": "php",
+    "args": ["$ZED_FILE"],
+  },
+]

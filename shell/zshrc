@@ -2,7 +2,6 @@
 # Environment
 # ============================================================
 export SHELL_SESSIONS_DISABLE=1
-export XDEBUG_CONFIG="idekey=VSCODE"
 export CLICOLOR=1
 
 # ============================================================
@@ -10,7 +9,20 @@ export CLICOLOR=1
 # ============================================================
 BREW_PREFIX=$(brew --prefix)
 
-export PATH="$BREW_PREFIX/bin:$BREW_PREFIX/sbin:$HOME/.dotfiles/bin:$HOME/.composer/vendor/bin:$HOME/bin:$HOME/.yarn/bin:/Applications/PhpStorm.app/Contents/MacOS:$PATH"
+export PATH="$BREW_PREFIX/bin:$BREW_PREFIX/sbin:$HOME/.dotfiles-custom/bin:$HOME/.composer/vendor/bin:$HOME/bin:$HOME/.yarn/bin:/Applications/PhpStorm.app/Contents/MacOS:$PATH"
+
+# Keg-only Homebrew formulas that should shadow the macOS versions
+for keg in curl; do
+  [[ -d "$BREW_PREFIX/opt/$keg/bin" ]] && export PATH="$BREW_PREFIX/opt/$keg/bin:$PATH"
+done
+
+# GNU userland without the g prefix, for Linux compatible flags and behaviour
+for gnu in coreutils findutils gnu-sed grep gawk gnu-tar; do
+  [[ -d "$BREW_PREFIX/opt/$gnu/libexec/gnubin" ]] && export PATH="$BREW_PREFIX/opt/$gnu/libexec/gnubin:$PATH"
+done
+
+# Lerd (installed outside Homebrew, see setup/misc-defaults.sh)
+export PATH="$HOME/.local/bin:$HOME/.local/share/lerd/bin:$PATH"
 
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
 
@@ -20,6 +32,7 @@ export PATH="$BREW_PREFIX/bin:$BREW_PREFIX/sbin:$HOME/.dotfiles/bin:$HOME/.compo
 fpath+=("$HOME/.zsh/completions")
 fpath+=("$BREW_PREFIX/share/zsh/site-functions")
 fpath+=("$BREW_PREFIX/share/zsh-completions")
+fpath+=("$HOME/.local/share/zsh/site-functions")
 
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qNmh-24) ]]; then
@@ -68,11 +81,14 @@ if [ -d "$FNM_PATH" ]; then
   eval "$(fnm env --shell zsh)"
 fi
 
-. "$HOME/.atuin/bin/env"
-eval "$(atuin init zsh)"
+[[ -f "$HOME/.atuin/bin/env" ]] && . "$HOME/.atuin/bin/env"
+# zsh-vi-mode rebinds keys after zshrc finishes, so atuin must init after it
+# or Ctrl-R and the up arrow lose their atuin bindings.
+if command -v atuin >/dev/null 2>&1; then
+  zvm_after_init_commands+=('eval "$(atuin init zsh)"')
+fi
 
 # ============================================================
 # zsh-patina (must stay last)
 # ============================================================
 eval "$(/opt/homebrew/opt/zsh-patina/bin/zsh-patina activate)"
-

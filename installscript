@@ -5,14 +5,20 @@ function main() {
   # Keep-alive: update existing `sudo` time stamp until `.macos-defaults` has finished
   while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
+  if [[ ! -d "$HOME/.dotfiles-custom/.git" ]]; then
+    echo "Note: ~/.dotfiles-custom (private dotfiles repo) is not cloned yet."
+    echo "      Clone it first if you want Claude config, git identity and private aliases linked."
+    echo
+  fi
+
   read -p 'Create symlinks? (y/N): ' symlinks
   read -p 'Create directories? (y/N): ' directories
 
   read -p 'Setup brew? (y/N): ' setupbrew
   read -p 'Run setup scripts? (y/N): ' setupscripts
 
-  if [[ $symlinks =~ ^[Yy]$ ]];then mkLinks; fi
   if [[ $directories =~ ^[Yy]$ ]];then mkDirectories;fi
+  if [[ $symlinks =~ ^[Yy]$ ]];then mkLinks; fi
 
   if [[ $setupbrew =~ ^[Yy]$ ]];then brewSetup;fi
   if [[ $setupscripts =~ ^[Yy]$ ]];then macOSSetupScripts;fi
@@ -22,7 +28,6 @@ function main() {
 }
 
 function mkLinks() {
-  mkLink $HOME/.dotfiles/shell/bin $HOME/bin
   mkLink $HOME/.dotfiles/shell/vim $HOME/.vim
   mkLink $HOME/.dotfiles/shell/vimrc $HOME/.vimrc
   mkLink $HOME/.dotfiles/shell/zshrc $HOME/.zshrc
@@ -30,7 +35,19 @@ function mkLinks() {
   mkLink $HOME/.dotfiles/shell/zprofile $HOME/.zprofile
   mkLink $HOME/.dotfiles/shell/ideavimrc $HOME/.ideavimrc
   mkLink $HOME/.dotfiles/shell/hushlogin $HOME/.hushlogin
+  mkZedLinks
   mkClaudeLinks
+}
+
+# Zed keeps a prompt database next to its config, so only the three config
+# files are linked, not the directory. Extensions install themselves from the
+# auto_install_extensions block in settings.json.
+function mkZedLinks() {
+  mkDirectory $HOME/.config/zed
+
+  for file in settings.json keymap.json tasks.json; do
+    mkLink "$HOME/.dotfiles/config/zed/$file" "$HOME/.config/zed/$file"
+  done
 }
 
 # Claude Code keeps runtime state (sessions, caches, plugin installs, synced
@@ -59,9 +76,8 @@ function mkClaudeLinks() {
 }
 
 function mkDirectories() {
-  mkDirectory $HOME/opt/local/bin
-  mkDirectory $HOME/.dotfiles-custom
-  mkDirectory $HOME/.config/git
+  mkDirectory $HOME/.config
+  mkDirectory $HOME/.zsh
 }
 
 function brewSetup() {

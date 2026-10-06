@@ -43,3 +43,5 @@ yarn-error.log
 .phpunit.result.cache
 
 **/.claude/settings.local.json
+
+**/.claude/.cc-writes/

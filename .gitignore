@@ -1,3 +1,13 @@
 # Mac OS X hidden files
 .DS_Store
 .DS_Store?
+
+# Vim runtime noise (plugins are installed by Vundle)
+shell/vim/.netrwhist
+shell/vim/backups/*
+shell/vim/swaps/*
+shell/vim/undo/*
+shell/vim/bundle/*
+!shell/vim/bundle/.gitkeep
+!shell/vim/backups/.gitkeep
+!shell/vim/bundle/Vundle.vim

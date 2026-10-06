@@ -1,0 +1,10 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-alt-shift-r": ["task::Spawn", { "task_name": "run_php" }],
+    "shift shift": "file_finder::Toggle",
+    "cmd-t": "workspace::ToggleBottomDock"
+    },
+  },
+]

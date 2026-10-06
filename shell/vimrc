@@ -1,3 +1,8 @@
+"-------- Plugins (Vundle, must come first) -------"
+set nocompatible
+filetype off
+source ~/.vim/plugins.vim
+
 "-------- General -------"
 
 syntax enable
@@ -6,7 +11,7 @@ syntax enable
 set t_Co=256
 
 "line numbers"
-set number
+set nonumber
 
 
 "-------- Search -------"
