@@ -1,52 +1,49 @@
 # Run the project's test suite: pest if installed, otherwise phpunit
 function p() {
-   if [ -f vendor/bin/pest ]; then
-      vendor/bin/pest "$@"
-   else
-      vendor/bin/phpunit "$@"
-   fi
+    if [[ -x vendor/bin/pest ]]; then
+        vendor/bin/pest "$@"
+    elif [[ -x vendor/bin/phpunit ]]; then
+        vendor/bin/phpunit "$@"
+    else
+        echo "No pest or phpunit in vendor/bin" >&2
+        return 1
+    fi
 }
 
 # Run only the tests whose name matches the given filter
 function pf() {
-   if [ -f vendor/bin/pest ]; then
-      vendor/bin/pest --filter "$@"
-   else
-      vendor/bin/phpunit --filter "$@"
-   fi
+    p --filter "$@"
 }
 
 # Open a path in PhpStorm, e.g. `phpstorm .`
 # https://www.jetbrains.com/help/phpstorm/working-with-the-ide-features-from-command-line.html#toolbox
 function phpstorm() {
-   open -na "PhpStorm.app" --args "$@"
+    open -na "PhpStorm.app" --args "${@:-.}"
 }
 
-# Create a new directory and enter it
+# Create a directory (and parents) and enter it
 function mkd() {
-   mkdir -p "$@" && cd "$@"
+    mkdir -p "$1" && cd "$1"
 }
 
-# Show every DNS record for a domain in one readable listing
+# Show the common DNS records for a domain in one listing.
+# Queries each type separately because most resolvers now refuse ANY.
 function digga() {
-	dig +nocmd "$1" any +multiline +noall +answer
+    local type
+    for type in A AAAA CNAME MX NS TXT SOA; do
+        dig +noall +answer "$1" "$type"
+    done
 }
 
 # Forget a host's SSH fingerprint, for when a server was rebuilt and
 # ssh refuses to connect because the key changed
 function removehost() {
-   ssh-keygen -R "$1"
+    ssh-keygen -R "$1"
 }
 
 # Weather forecast in the terminal from wttr.in, defaults to Montreal
 function weather() {
-   city="$1"
-
-   if [ -z "$city" ]; then
-      city="montreal"
-   fi
-
-   eval "curl http://wttr.in/${city}"
+    curl -fsS "https://wttr.in/${1:-montreal}"
 }
 
 # Run Jekyll for the current directory inside a Podman container, nothing on
