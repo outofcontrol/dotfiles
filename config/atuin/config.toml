@@ -1,0 +1,30 @@
+# Atuin shell history. Full reference: https://docs.atuin.sh/configuration/config/
+# Sync is not configured; history stays in the local database.
+
+# Enter runs the selected command immediately, Tab puts it on the prompt to edit
+enter_accept = true
+
+# Fuzzy search served by the background daemon
+search_mode = "daemon-fuzzy"
+
+# Commands never recorded (regexes, matched against the whole command)
+history_filter = [
+  "^ls$",
+  "^ls ",
+  "^cd$",
+  "^cd ",
+  "^pwd$",
+  "^exit$",
+  "^date$",
+  " --help$",
+]
+
+[sync]
+records = true
+
+[daemon]
+enabled = true
+autostart = true
+
+[ai]
+enabled = true

@@ -35,6 +35,8 @@ function mkLinks() {
   mkLink $HOME/.dotfiles/shell/zprofile $HOME/.zprofile
   mkLink $HOME/.dotfiles/shell/ideavimrc $HOME/.ideavimrc
   mkLink $HOME/.dotfiles/shell/hushlogin $HOME/.hushlogin
+  mkDirectory $HOME/.config/atuin
+  mkLink $HOME/.dotfiles/config/atuin/config.toml $HOME/.config/atuin/config.toml
   mkZedLinks
   mkClaudeLinks
 }

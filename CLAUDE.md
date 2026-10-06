@@ -23,6 +23,7 @@ Symlink targets (`mkLink` in `installscript`) map repo paths into `$HOME`:
 | `shell/ideavimrc` | `~/.ideavimrc`   |
 | `shell/hushlogin` | `~/.hushlogin`   |
 | `config/zed/{settings,keymap,tasks}.json` | `~/.config/zed/<file>` (one link per file) |
+| `config/atuin/config.toml` | `~/.config/atuin/config.toml` |
 | `~/.dotfiles-custom/claude/settings.json` | `~/.claude/settings.json` |
 | `~/.dotfiles-custom/claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `~/.dotfiles-custom/claude/statusline.sh` | `~/.claude/statusline.sh` |
