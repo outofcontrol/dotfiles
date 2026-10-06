@@ -35,10 +35,14 @@ function digga() {
     done
 }
 
-# Forget a host's SSH fingerprint, for when a server was rebuilt and
-# ssh refuses to connect because the key changed
+# Forget SSH fingerprints, for when a server was rebuilt and ssh refuses to
+# connect because the key changed. Takes any number of hosts, so both the
+# name and the IP can be cleared at once. Non-standard ports are "[host]:port".
 function removehost() {
-    ssh-keygen -R "$1"
+    local host
+    for host in "$@"; do
+        ssh-keygen -R "$host"
+    done
 }
 
 # Weather forecast in the terminal from wttr.in, defaults to Montreal
