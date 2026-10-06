@@ -1,4 +1,4 @@
-# Run tests
+# Run the project's test suite: pest if installed, otherwise phpunit
 function p() {
    if [ -f vendor/bin/pest ]; then
       vendor/bin/pest "$@"
@@ -7,6 +7,7 @@ function p() {
    fi
 }
 
+# Run only the tests whose name matches the given filter
 function pf() {
    if [ -f vendor/bin/pest ]; then
       vendor/bin/pest --filter "$@"
@@ -15,7 +16,7 @@ function pf() {
    fi
 }
 
-# PHPStorm function
+# Open a path in PhpStorm, e.g. `phpstorm .`
 # https://www.jetbrains.com/help/phpstorm/working-with-the-ide-features-from-command-line.html#toolbox
 function phpstorm() {
    open -na "PhpStorm.app" --args "$@"
@@ -26,15 +27,18 @@ function mkd() {
    mkdir -p "$@" && cd "$@"
 }
 
-# All the dig info
+# Show every DNS record for a domain in one readable listing
 function digga() {
 	dig +nocmd "$1" any +multiline +noall +answer
 }
 
+# Forget a host's SSH fingerprint, for when a server was rebuilt and
+# ssh refuses to connect because the key changed
 function removehost() {
    ssh-keygen -R "$1"
 }
 
+# Weather forecast in the terminal from wttr.in, defaults to Montreal
 function weather() {
    city="$1"
 
