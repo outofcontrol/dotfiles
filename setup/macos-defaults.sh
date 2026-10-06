@@ -188,6 +188,9 @@ defaults write com.apple.Safari NewTabBehavior -int 1
 defaults write com.apple.Safari HistoryAgeInDaysLimit -int 365000
 defaults write com.apple.Safari EnableNarrowTabs -bool false
 
+# Disable tab hover previews
+defaults write com.apple.Safari DebugDisableTabHoverPreview -bool true
+
 ###############################################################################
 # Desktop, Spaces and menu bar                                                #
 ###############################################################################
