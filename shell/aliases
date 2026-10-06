@@ -1,30 +1,10 @@
 # System
 alias reloadcli="source $HOME/.zshrc"
 alias pubkey="/bin/cat ~/.ssh/id_rsa.pub | pbcopy"
-alias edithosts="sudo vim /etc/hosts"
 alias fuck='sudo $(history -p \!\!)'
 alias finder="open -a 'Finder' ."
-alias o="open ."
 alias brewup='brew update && brew upgrade'
-
-# Docker
-alias dockerhalt='docker stop $(docker ps -a -q)'
-alias dockerrm='docker rm $(docker ps -a -q)'
-
-# System
 alias top='top -o cpu'
-alias cc='clear'
-alias spot='mdfind -onlyin `pwd`'
-
-# PHP (composer comes from Lerd's shim)
-alias c="composer"
-alias ci="composer install"
-alias cu="composer update"
-alias cr="composer require"
-alias cda="composer dump-autoload -o"
-alias larastan="vendor/bin/phpstan analyse"
 
 # Laravel
 alias art='php artisan'
-alias tink='php artisan tinker'
-alias migrate='php artisan migrate'
