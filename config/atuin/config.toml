@@ -1,5 +1,5 @@
 # Atuin shell history. Full reference: https://docs.atuin.sh/configuration/config/
-# Everything stays on this machine: no sync server, no hosted AI, no update checks.
+# History stays on this machine: no sync server, no hosted AI.
 
 # Enter runs the selected command immediately, Tab puts it on the prompt to edit
 enter_accept = true
@@ -23,9 +23,6 @@ history_filter = [
 records = true
 # Never contact a sync server, even if one gets configured by accident
 auto_sync = false
-
-# Do not phone home to check for new versions
-update_check = false
 
 [daemon]
 enabled = true
