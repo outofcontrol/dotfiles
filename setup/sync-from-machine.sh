@@ -61,9 +61,9 @@ else
   echo '  ~/.dotfiles-custom/claude not found, skipping'
 fi
 
-echo 'Claude Code: adopt new skills and commands created directly in ~/.claude'
+echo 'Claude Code: adopt new skills, commands and agents created directly in ~/.claude'
 if [[ -d "$CUSTOM/claude" ]]; then
-  for kind in skills commands; do
+  for kind in skills commands agents; do
     for entry in "$HOME/.claude/$kind"/*; do
       [[ -e "$entry" ]] || continue
       name=$(basename "$entry")

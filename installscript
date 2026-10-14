@@ -63,6 +63,12 @@ function mkClaudeLinks() {
 
   mkDirectory $HOME/.claude/skills
   mkDirectory $HOME/.claude/commands
+  mkDirectory $HOME/.claude/agents
+
+  # An empty or missing directory must not leave a dangling "*" symlink behind.
+  local restore_nullglob
+  restore_nullglob=$(shopt -p nullglob)
+  shopt -s nullglob
 
   mkLink $HOME/.dotfiles-custom/claude/settings.json $HOME/.claude/settings.json
   mkLink $HOME/.dotfiles-custom/claude/CLAUDE.md $HOME/.claude/CLAUDE.md
@@ -75,6 +81,12 @@ function mkClaudeLinks() {
   for command in $HOME/.dotfiles-custom/claude/commands/*.md; do
     mkLink "$command" "$HOME/.claude/commands/$(basename "$command")"
   done
+
+  for agent in $HOME/.dotfiles-custom/claude/agents/*.md; do
+    mkLink "$agent" "$HOME/.claude/agents/$(basename "$agent")"
+  done
+
+  eval "$restore_nullglob"
 }
 
 function mkDirectories() {

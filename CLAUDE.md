@@ -29,6 +29,7 @@ Symlink targets (`mkLink` in `installscript`) map repo paths into `$HOME`:
 | `~/.dotfiles-custom/claude/statusline.sh` | `~/.claude/statusline.sh` |
 | `~/.dotfiles-custom/claude/skills/<name>` | `~/.claude/skills/<name>` (one link per skill) |
 | `~/.dotfiles-custom/claude/commands/<name>.md` | `~/.claude/commands/<name>.md` (one link per command) |
+| `~/.dotfiles-custom/claude/agents/<name>.md` | `~/.claude/agents/<name>.md` (one link per agent) |
 
 `mkLink` refuses to overwrite a real (non-symlink) file or directory that already exists at the destination, but will happily replace an existing symlink.
 
@@ -48,9 +49,10 @@ Setup scripts (only run if the user opts in):
 - `~/.dotfiles-custom/claude/CLAUDE.md` — global user instructions.
 - `~/.dotfiles-custom/claude/skills/` — only skills authored or vendored here. Claude's own `skills/synced/` is deliberately left out.
 - `~/.dotfiles-custom/claude/commands/` — custom slash commands.
+- `~/.dotfiles-custom/claude/agents/` — custom subagents, one Markdown file per agent.
 - `~/.dotfiles-custom/claude/mcp.json` — MCP servers to register. Edit this and re-run `setup/claude-defaults.sh` rather than editing `~/.claude.json` by hand. Removing a server here does not unregister it (use `claude mcp remove`).
 
-Adding a new skill or command means dropping it into `~/.dotfiles-custom/claude/skills/` or `~/.dotfiles-custom/claude/commands/` and re-running the symlink step (or linking it by hand); `mkClaudeLinks` links whatever is present.
+Adding a new skill, command or agent means dropping it into the matching directory under `~/.dotfiles-custom/claude/` and re-running the symlink step (or linking it by hand); `mkClaudeLinks` links whatever is present and skips directories that are empty.
 
 ## Shell config structure
 
