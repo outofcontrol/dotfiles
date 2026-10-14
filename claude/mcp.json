@@ -1,0 +1,36 @@
+{
+  "mcpServers": {
+    "lerd": {
+      "type": "stdio",
+      "command": "lerd",
+      "args": [
+        "mcp"
+      ],
+      "env": {}
+    },
+    "brave-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "brave-mcp@latest",
+        "--headless",
+        "--isolated",
+        "--screenshot-format=jpeg"
+      ],
+      "env": {}
+    },
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest",
+        "--executablePath",
+        "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser",
+        "--isolated"
+      ],
+      "env": {}
+    }
+  }
+}

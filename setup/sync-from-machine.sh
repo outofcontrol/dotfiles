@@ -54,32 +54,32 @@ PY
 fi
 
 echo 'Claude Code: refresh mcp.json from ~/.claude.json'
-if [[ -d "$CUSTOM/claude" && -f "$HOME/.claude.json" ]]; then
-  jq '{mcpServers: .mcpServers}' "$HOME/.claude.json" > "$CUSTOM/claude/mcp.json"
-  jq -r '.mcpServers | keys[]' "$CUSTOM/claude/mcp.json" | sed 's/^/  /'
+if [[ -f "$HOME/.claude.json" ]]; then
+  jq '{mcpServers: .mcpServers}' "$HOME/.claude.json" > "$DOTFILES/claude/mcp.json"
+  jq -r '.mcpServers | keys[]' "$DOTFILES/claude/mcp.json" | sed 's/^/  /'
+  echo '  servers that must stay private: move them to ~/.dotfiles-custom/claude/mcp.json by hand'
 else
-  echo '  ~/.dotfiles-custom/claude not found, skipping'
+  echo '  ~/.claude.json not found, skipping'
 fi
 
 echo 'Claude Code: adopt new skills, commands and agents created directly in ~/.claude'
-if [[ -d "$CUSTOM/claude" ]]; then
-  for kind in skills commands agents; do
-    for entry in "$HOME/.claude/$kind"/*; do
-      [[ -e "$entry" ]] || continue
-      name=$(basename "$entry")
-      [[ -L "$entry" ]] && continue          # already linked (ours or Homebrew's)
-      [[ "$name" == "synced" ]] && continue  # managed by Claude itself
-      mkdir -p "$CUSTOM/claude/$kind"
-      if [[ -e "$CUSTOM/claude/$kind/$name" ]]; then
-        echo "  $kind/$name exists in both places, resolve by hand"
-        continue
-      fi
-      mv "$entry" "$CUSTOM/claude/$kind/$name"
-      ln -s "$CUSTOM/claude/$kind/$name" "$entry"
-      echo "  adopted $kind/$name"
-    done
+echo '  (adopted into the public repo; move anything private to ~/.dotfiles-custom/claude by hand)'
+for kind in skills commands agents; do
+  for entry in "$HOME/.claude/$kind"/*; do
+    [[ -e "$entry" ]] || continue
+    name=$(basename "$entry")
+    [[ -L "$entry" ]] && continue          # already linked (ours or Homebrew's)
+    [[ "$name" == "synced" ]] && continue  # managed by Claude itself
+    mkdir -p "$DOTFILES/claude/$kind"
+    if [[ -e "$DOTFILES/claude/$kind/$name" || -e "$CUSTOM/claude/$kind/$name" ]]; then
+      echo "  $kind/$name exists in both places, resolve by hand"
+      continue
+    fi
+    mv "$entry" "$DOTFILES/claude/$kind/$name"
+    ln -s "$DOTFILES/claude/$kind/$name" "$entry"
+    echo "  adopted $kind/$name"
   done
-fi
+done
 
 echo
 echo 'Review and commit:'

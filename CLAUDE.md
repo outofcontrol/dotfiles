@@ -24,12 +24,13 @@ Symlink targets (`mkLink` in `installscript`) map repo paths into `$HOME`:
 | `shell/hushlogin` | `~/.hushlogin`   |
 | `config/zed/{settings,keymap,tasks}.json` | `~/.config/zed/<file>` (one link per file) |
 | `config/atuin/config.toml` | `~/.config/atuin/config.toml` |
-| `~/.dotfiles-custom/claude/settings.json` | `~/.claude/settings.json` |
-| `~/.dotfiles-custom/claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
-| `~/.dotfiles-custom/claude/statusline.sh` | `~/.claude/statusline.sh` |
-| `~/.dotfiles-custom/claude/skills/<name>` | `~/.claude/skills/<name>` (one link per skill) |
-| `~/.dotfiles-custom/claude/commands/<name>.md` | `~/.claude/commands/<name>.md` (one link per command) |
-| `~/.dotfiles-custom/claude/agents/<name>.md` | `~/.claude/agents/<name>.md` (one link per agent) |
+| `claude/settings.json` | `~/.claude/settings.json` |
+| `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
+| `claude/statusline.sh` | `~/.claude/statusline.sh` |
+| `claude/skills/<name>` | `~/.claude/skills/<name>` (one link per skill) |
+| `claude/commands/<name>.md` | `~/.claude/commands/<name>.md` (one link per command) |
+| `claude/agents/<name>.md` | `~/.claude/agents/<name>.md` (one link per agent) |
+| `~/.dotfiles-custom/claude/...` | same targets, linked after the public ones so a private file overrides or adds to them |
 
 `mkLink` refuses to overwrite a real (non-symlink) file or directory that already exists at the destination, but will happily replace an existing symlink.
 
@@ -38,21 +39,23 @@ Setup scripts (only run if the user opts in):
 - `setup/brew-defaults.sh` — installs Homebrew and a long list of CLI tools/casks (vim, wget, httpie, gh, sqlmap, awscli, ansible, doctl, atuin, pure prompt, fnm, zsh-vi-mode, orbstack, podman-desktop, iterm2, brave, etc).
 - `setup/macos-defaults.sh` — sets macOS system defaults (computer name and timezone are prompted for, UI/UX prefs, based on Mathias Bynens' / Freek Van der Herten's dotfiles). Also enables Remote Login (SSH) restricted to key auth and the current user, but only if `~/.dotfiles-custom/ssh/authorized_keys` holds at least one public key; those keys are appended to `~/.ssh/authorized_keys` and the sshd restrictions go in `/etc/ssh/sshd_config.d/010-dotfiles.conf`.
 - `setup/misc-defaults.sh` — sets up Docker/Podman zsh completions, fetches oh-my-zsh's `git.plugin.zsh` standalone (no full oh-my-zsh framework), installs the iTerm2 profile from `config/iterm/OOC.json` as a dynamic profile, and runs the Lerd installer if `lerd` is missing.
-- `setup/sync-from-machine.sh` — the reverse direction. Pulls live state back into the repos: Zed's installed extensions into the `auto_install_extensions` block of `config/zed/settings.json`, the iTerm "OOC" profile into `config/iterm/OOC.json`, and the MCP servers from `~/.claude.json` into `~/.dotfiles-custom/claude/mcp.json`. Run it after changing any of those on the live machine, then review and commit both repos.
-- `setup/claude-defaults.sh` — registers the user-scoped MCP servers declared in `~/.dotfiles-custom/claude/mcp.json` via `claude mcp add-json`, skipping any that already exist.
+- `setup/sync-from-machine.sh` — the reverse direction. Pulls live state back into the repos: Zed's installed extensions into the `auto_install_extensions` block of `config/zed/settings.json`, the iTerm "OOC" profile into `config/iterm/OOC.json`, and the MCP servers from `~/.claude.json` into `claude/mcp.json`. Run it after changing any of those on the live machine, then review and commit both repos.
+- `setup/claude-defaults.sh` — registers the user-scoped MCP servers declared in `claude/mcp.json` and, if present, `~/.dotfiles-custom/claude/mcp.json` via `claude mcp add-json`, skipping any that already exist.
 
 ## Claude Code config
 
-`~/.dotfiles-custom/claude/` holds the portable parts of the global Claude Code config. `~/.claude` itself is never symlinked because it also holds runtime state (sessions, caches, `plugins/`, `skills/synced/`), and `~/.claude.json` is never tracked because it mixes account identifiers, per-project history and caches with the one thing we want from it (`mcpServers`).
+`claude/` holds the portable parts of the global Claude Code config. `~/.claude` itself is never symlinked because it also holds runtime state (sessions, caches, `plugins/`, `skills/synced/`), and `~/.claude.json` is never tracked because it mixes account identifiers, per-project history and caches with the one thing we want from it (`mcpServers`).
 
-- `~/.dotfiles-custom/claude/settings.json` — permissions, sandbox, model, status line, enabled plugins. Paths use `~`, not an absolute home. The podman socket under `/var/folders/...` is machine-specific and will need editing on a new Mac.
-- `~/.dotfiles-custom/claude/CLAUDE.md` — global user instructions.
-- `~/.dotfiles-custom/claude/skills/` — only skills authored or vendored here. Claude's own `skills/synced/` is deliberately left out.
-- `~/.dotfiles-custom/claude/commands/` — custom slash commands.
-- `~/.dotfiles-custom/claude/agents/` — custom subagents, one Markdown file per agent.
-- `~/.dotfiles-custom/claude/mcp.json` — MCP servers to register. Edit this and re-run `setup/claude-defaults.sh` rather than editing `~/.claude.json` by hand. Removing a server here does not unregister it (use `claude mcp remove`).
+- `claude/settings.json` — permissions, sandbox, model, status line, enabled plugins. Paths use `~`, not an absolute home. The podman socket under `/var/folders/...` is machine-specific and will need editing on a new Mac.
+- `claude/CLAUDE.md` — global user instructions.
+- `claude/skills/` — only skills authored or vendored here. Claude's own `skills/synced/` is deliberately left out.
+- `claude/commands/` — custom slash commands.
+- `claude/agents/` — custom subagents, one Markdown file per agent.
+- `claude/mcp.json` — MCP servers to register. Edit this and re-run `setup/claude-defaults.sh` rather than editing `~/.claude.json` by hand. Removing a server here does not unregister it (use `claude mcp remove`).
 
-Adding a new skill, command or agent means dropping it into the matching directory under `~/.dotfiles-custom/claude/` and re-running the symlink step (or linking it by hand); `mkClaudeLinks` links whatever is present and skips directories that are empty.
+`~/.dotfiles-custom/claude/` is an optional private overlay with the same layout. It is for config that must not be public (client-specific skills, MCP servers with credentials). `mkClaudeLinks` links it after the public directory, so a private file with the same name wins. Nothing in it is required.
+
+Adding a new skill, command or agent means dropping it into the matching directory under `claude/` (or the private overlay) and re-running the symlink step (or linking it by hand); `mkClaudeLinks` links whatever is present and skips directories that are empty.
 
 ## Shell config structure
 
