@@ -100,11 +100,24 @@ function mkDirectories() {
 function brewSetup() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
     $HOME/.dotfiles/setup/brew-defaults.sh
+    loadBrewEnv
+  fi
+}
+
+# brew-defaults.sh runs as a child process, so the PATH it sets up dies with it.
+# Load Homebrew into this shell so the setup scripts that follow (Lerd installer,
+# claude mcp registration) find brew and its casks without a new terminal tab.
+function loadBrewEnv() {
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
   fi
 }
 
 function macOSSetupScripts() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
+    loadBrewEnv
     $HOME/.dotfiles/setup/macos-defaults.sh
     $HOME/.dotfiles/setup/misc-defaults.sh
     $HOME/.dotfiles/setup/claude-defaults.sh
