@@ -88,7 +88,7 @@ PHP, Composer, Node (via fnm) and databases come from Lerd (installed by `misc-d
 
 ## iTerm2
 
-`config/iterm/OOC.json` is the exported "OOC" profile (Fira Code 15, inline colours). `misc-defaults.sh` copies it into iTerm's DynamicProfiles folder. To update it, export the profile again from iTerm (Profiles, Other Actions, Save Profile as JSON) and overwrite the file; do not hand-edit the GUID.
+`config/iterm/OOC.json` is the exported "OOC" profile (Fira Code 15, inline colours). `misc-defaults.sh` copies it into iTerm's DynamicProfiles folder. The file must be a dynamic profile document (`{"Profiles": [ ... ]}`). iTerm's own "Save Profile as JSON" export writes a bare profile object, which iTerm then refuses to load. To update it, run `setup/sync-from-machine.sh`, which reads the live profile from iTerm's plist and writes the wrapped form; do not hand-edit the GUID.
 
 ## Making changes
 
