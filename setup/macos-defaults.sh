@@ -285,8 +285,9 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
 	OpenWith -bool true \
 	Privileges -bool true
 
-# Show hidden files:
-defaults write com.apple.finder AppleShowAllFiles YES;
+# Show hidden files in Finder and in Open/Save dialogs
+defaults write com.apple.finder AppleShowAllFiles -bool true
+defaults write NSGlobalDomain AppleShowAllFiles -bool true
 
 ###############################################################################
 # Screenshots                                                                 #
