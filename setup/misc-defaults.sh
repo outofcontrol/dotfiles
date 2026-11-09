@@ -47,6 +47,11 @@ ITERM_PROFILES="$HOME/Library/Application Support/iTerm2/DynamicProfiles"
 mkdir -p "$ITERM_PROFILES"
 cp "$HOME/.dotfiles/config/iterm/OOC.json" "$ITERM_PROFILES/OOC.json"
 
+# Make OOC the default profile so new windows use it. iTerm reads this on
+# launch, so quit and reopen iTerm if it was running.
+OOC_GUID=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["Profiles"][0]["Guid"])' "$HOME/.dotfiles/config/iterm/OOC.json")
+defaults write com.googlecode.iterm2 "Default Bookmark Guid" -string "$OOC_GUID"
+
 # Install Lerd (Podman based local PHP environment, not available via Homebrew)
 # The installer appends PATH lines to ~/.zshrc; shell/zshrc already has them.
 
