@@ -139,6 +139,13 @@ mas install 6504861501  # Ghostery AdBlocker for Privacy (Safari)
 mas install 6720708363  # Obsidian Web Clipper (Safari)
 mas install 497799835   # Xcode (large download, several GB)
 
+# Once full Xcode is present, brew and the toolchain refuse to run until its
+# license is accepted and the first-launch components are installed.
+if [[ -d /Applications/Xcode.app ]]; then
+  sudo xcodebuild -license accept
+  sudo xcodebuild -runFirstLaunch
+fi
+
 echo 'Install Zed (official installer, not available as a cask we trust)'
 echo '----------------------------------------------------------------------'
 if [[ ! -d /Applications/Zed.app ]]; then
