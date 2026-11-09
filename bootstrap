@@ -11,6 +11,16 @@ function main() {
 	echo;
 	echo 'Bootstrap your terminal'
 	echo '-----------------------'
+
+	# setup/brew-defaults.sh installs Mac App Store apps (including Xcode) with
+	# mas, which silently fails when nobody is signed in. mas has no way to
+	# check sign-in state on current macOS, so ask.
+	read -p 'Are you signed in to the Mac App Store? (y/N): ' appstore
+	if [[ ! $appstore =~ ^[Yy]$ ]]; then
+		echo 'Error: open the App Store, sign in with your Apple ID, then run bootstrap again.' >&2
+		exit 1
+	fi
+
 	read -p 'This will reset your terminal. Are you sure you want to continue? (y/N): ' reply
 
 	if [[ $reply =~ ^[Yy]$ ]]; then bootstrapTerminal; fi
