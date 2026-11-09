@@ -3,6 +3,11 @@
 # bootstrap installs things.
 
 function main() {
+	if [[ $EUID -eq 0 ]]; then
+		echo 'Error: bootstrap must not be run as root. Run it as your normal user; it will ask for sudo when needed.' >&2
+		exit 1
+	fi
+
 	echo;
 	echo 'Bootstrap your terminal'
 	echo '-----------------------'
