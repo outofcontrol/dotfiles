@@ -388,7 +388,8 @@
       "Visual Bell": true,
       "Custom Directory": "Yes",
       "Thin Strokes": 1,
-      "Set Local Environment Vars": true
+      "Set Local Environment Vars": true,
+      "Use Separate Colors for Light and Dark Mode": false
     }
   ]
 }
