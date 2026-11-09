@@ -186,5 +186,6 @@
       "effortLevel": "high"
     }
   },
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "theme": "auto"
 }
