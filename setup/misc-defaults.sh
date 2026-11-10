@@ -62,6 +62,8 @@ if ! command -v lerd >/dev/null 2>&1; then
 fi
 export PATH="$HOME/.local/bin:$HOME/.local/share/lerd/bin:$PATH"
 check 'lerd on PATH' command -v lerd
+check 'shell/zshrc untouched by the Lerd installer (revert with: git -C ~/.dotfiles checkout shell/zshrc)' \
+  git -C "$HOME/.dotfiles" diff --quiet -- shell/zshrc
 check 'podman on PATH' command -v podman
 
 # Generate zsh completions for tools that do not ship them via Homebrew.
