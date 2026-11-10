@@ -1,6 +1,8 @@
 #!/bin/bash
 set -Eeuo pipefail
 
+. "$HOME/.dotfiles/setup/lib.sh"
+
 # Register user-scoped MCP servers from claude/mcp.json.
 #
 # Claude Code stores MCP servers in ~/.claude.json, alongside account details,
@@ -25,7 +27,7 @@ if ! command -v claude >/dev/null 2>&1; then
 fi
 
 if ! command -v jq >/dev/null 2>&1; then
-  echo "jq not found, skipping MCP server registration"
+  check "jq on PATH (MCP servers not registered)" false
   exit 0
 fi
 
@@ -37,6 +39,6 @@ for MCP_FILE in "${MCP_FILES[@]}"; do
     fi
 
     echo "Registering MCP server: $name"
-    claude mcp add-json --scope user "$name" "$(jq -c ".mcpServers[\"$name\"]" "$MCP_FILE")"
+    try claude mcp add-json --scope user "$name" "$(jq -c ".mcpServers[\"$name\"]" "$MCP_FILE")"
   done
 done

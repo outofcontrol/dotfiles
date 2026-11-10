@@ -2,6 +2,10 @@
 
 # Transform long options to short ones
 function main() {
+  . "$HOME/.dotfiles/setup/lib.sh"
+  : > "$DOTFILES_FAILURES"
+  export DOTFILES_FAILURES
+
   # Keep-alive: update existing `sudo` time stamp until `.macos-defaults` has finished
   while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
@@ -24,6 +28,7 @@ function main() {
   if [[ $setupscripts =~ ^[Yy]$ ]];then macOSSetupScripts;fi
 
   echo;
+  report_failures || exit 1
   echo "Done. Some changes require a logout/restart to take effect."
 }
 
