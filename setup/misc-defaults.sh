@@ -57,12 +57,34 @@ try defaults write com.googlecode.iterm2 "Default Bookmark Guid" -string "$OOC_G
 # Install Lerd (Podman based local PHP environment, not available via Homebrew)
 # The installer appends PATH lines to ~/.zshrc; shell/zshrc already has them.
 
+# PATH is set first so the installer's own PATH step sees ~/.local/bin and skips
+# editing the rc file.
+export PATH="$HOME/.local/bin:$HOME/.local/share/lerd/bin:$PATH"
 if ! command -v lerd >/dev/null 2>&1; then
   try sh -c 'curl -fsSL https://lerd.sh/install.sh | bash'
 fi
-export PATH="$HOME/.local/bin:$HOME/.local/share/lerd/bin:$PATH"
 check 'lerd on PATH' command -v lerd
-check 'shell/zshrc untouched by the Lerd installer (revert with: git -C ~/.dotfiles checkout shell/zshrc)' \
+
+# The installer ends with `lerd install`, which appends "# Lerd" PATH and
+# completion blocks to ~/.zshrc, which is a symlink into this repo. shell/zshrc
+# already carries both, and zsh-patina must stay the last line, so strip
+# anything Lerd appended after it.
+python3 - "$HOME/.dotfiles/shell/zshrc" <<'PY'
+import re, sys
+path = sys.argv[1]
+lines = open(path).read().split('\n')
+last = max((i for i, l in enumerate(lines) if 'zsh-patina activate' in l), default=None)
+if last is not None:
+    tail = lines[last + 1:]
+    markers = [i for i, l in enumerate(tail) if re.match(r'# (Lerd|Added by Lerd installer)', l)]
+    if markers:
+        kept = lines[:last + 1] + tail[:markers[0]]
+        while kept and kept[-1] == '':
+            kept.pop()
+        open(path, 'w').write('\n'.join(kept) + '\n')
+        print('Removed the lines Lerd appended to shell/zshrc')
+PY
+check 'shell/zshrc unchanged after the Lerd install (inspect: git -C ~/.dotfiles diff shell/zshrc)' \
   git -C "$HOME/.dotfiles" diff --quiet -- shell/zshrc
 check 'podman on PATH' command -v podman
 
