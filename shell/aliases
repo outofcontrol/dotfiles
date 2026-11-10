@@ -9,5 +9,8 @@ alias pubkey="/bin/cat ~/.ssh/id_rsa.pub | pbcopy"
 alias finder="open -a 'Finder' ."
 alias brewup='brew update && brew upgrade'
 
+# Editors (the zed CLI is linked into ~/.local/bin by setup/misc-defaults.sh)
+alias code='zed'
+
 # Laravel
 alias art='php artisan'

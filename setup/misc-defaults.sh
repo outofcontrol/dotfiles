@@ -35,6 +35,16 @@ if [[ ! -f "$GIT_PLUGIN_FILE" ]]; then
     https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/git/git.plugin.zsh
 fi
 
+# Link the Zed CLI. Zed ships it inside the app bundle but only installs it
+# into PATH when asked from the GUI (Zed > Install CLI). ~/.local/bin is on
+# PATH in shell/zshrc.
+
+ZED_CLI=/Applications/Zed.app/Contents/MacOS/cli
+if [[ -x "$ZED_CLI" && ! -e "$HOME/.local/bin/zed" ]]; then
+  mkdir -p "$HOME/.local/bin"
+  ln -s "$ZED_CLI" "$HOME/.local/bin/zed"
+fi
+
 # Install vim plugins declared in shell/vim/plugins.vim (Vundle itself is a git submodule)
 
 if [[ -f "$HOME/.vim/bundle/Vundle.vim/autoload/vundle.vim" ]]; then
