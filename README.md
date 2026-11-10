@@ -13,16 +13,18 @@ keychain.
 ```bash
 cd ~
 git clone https://github.com/outofcontrol/dotfiles.git .dotfiles
-git clone https://github.com/outofcontrol/dotfiles-custom.git .dotfiles-custom
+git clone https://github.com/<you>/dotfiles-custom.git .dotfiles-custom
 cd .dotfiles
 ./bootstrap
 ```
 
-The second clone is my private overlay (git identity, private shell config,
-private Claude config, SSH authorized keys). It is optional and only I can
-clone it. If you are not me, skip that line or point it at your own private
-repo with the same layout (`claude/`, `git/`, `shell/`, `ssh/`). Clone it
-before running bootstrap so its files are linked in the same run.
+The second clone is optional. Use it if you keep a private `dotfiles-custom`
+repository for anything that should not live in a public repo: git identity
+(`git/config`), private shell aliases and exports (`shell/`), private Claude
+Code skills and MCP servers (`claude/`), and SSH public keys to authorize
+(`ssh/authorized_keys`). The setup scripts pick up whatever is present in those
+directories and ignore the rest. Clone it before running bootstrap so its files
+are linked in the same run.
 
 `bootstrap` asks before each step: symlinks, directories, Homebrew, and the
 macOS setup scripts. Answer `y` to all of them on a fresh machine.
