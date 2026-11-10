@@ -180,6 +180,9 @@ defaults write com.apple.Safari AutoFillMiscellaneousForms -bool false
 # Do not open "safe" files automatically after downloading
 defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
 
+# Tabs: do not tint the tab bar with the website colour ("Show color in tab bar")
+defaults write com.apple.Safari NeverUseBackgroundColorInToolbar -bool true
+
 # Show the Develop menu
 defaults write com.apple.Safari IncludeDevelopMenu -bool true
 
