@@ -22,7 +22,7 @@ if [[ ${#MCP_FILES[@]} -eq 0 ]]; then
 fi
 
 if ! command -v claude >/dev/null 2>&1; then
-  echo "claude CLI not found, skipping MCP server registration"
+  check "claude on PATH (MCP servers not registered)" false
   exit 0
 fi
 
