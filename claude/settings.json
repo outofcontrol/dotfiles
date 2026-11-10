@@ -137,7 +137,7 @@
     "defaultMode": "auto",
     "disableBypassPermissionsMode": "disable"
   },
-  "model": "claude-fable-5-1[1m]",
+  "model": "fable[1m]",
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
@@ -186,6 +186,7 @@
       "effortLevel": "high"
     }
   },
-  "agentPushNotifEnabled": true,
-  "theme": "auto"
+  "tui": "fullscreen",
+  "theme": "auto",
+  "agentPushNotifEnabled": true
 }

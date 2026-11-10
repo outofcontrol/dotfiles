@@ -7,8 +7,9 @@ You can install them by cloning the repository as `.dotfiles` in your home
 directory and running the bootstrap script.
 
 ```bash
-git clone git@github.com:outofcontrol/dotfiles.git .dotfiles cd
-.dotfiles ./bootstrap
+git clone https://github.com/outofcontrol/dotfiles.git .dotfiles
+cd .dotfiles
+./bootstrap
 ```
 
 Feel free to create an issue on this repo if you have any questions. PRs accepted if they improve upon what I use.
