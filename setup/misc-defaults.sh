@@ -68,7 +68,7 @@ check 'podman on PATH' command -v podman
 # Each tool must support `<tool> completion zsh`. Runs after the Lerd install
 # because Lerd provides podman.
 
-COMPLETION_TOOLS=(docker podman)
+COMPLETION_TOOLS=(podman)
 
 mkdir -p "$HOME/.zsh/completions"
 
