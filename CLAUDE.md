@@ -32,7 +32,7 @@ Symlink targets (`mkLink` in `installscript`) map repo paths into `$HOME`:
 | `claude/agents/<name>.md` | `~/.claude/agents/<name>.md` (one link per agent) |
 | `~/.dotfiles-custom/claude/...` | same targets, linked after the public ones so a private file overrides or adds to them |
 
-`mkLink` refuses to overwrite a real (non-symlink) file or directory that already exists at the destination, but will happily replace an existing symlink.
+`mkLink` replaces an existing symlink. A real (non-symlink) file or directory at the destination is moved to `<dest>.bak` and recorded in the failure log, then linked over. Claude Code rewrites `~/.claude/settings.json` in place (for example on "always allow"), which replaces the link with a real file; re-run the symlink step to restore it, and keep machine-local permission grants in `~/.claude/settings.local.json` instead.
 
 Setup scripts (only run if the user opts in):
 

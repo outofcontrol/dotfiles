@@ -129,16 +129,21 @@ function macOSSetupScripts() {
   fi
 }
 
-# Refuses to replace a real file or directory, but will replace an existing symlink.
+# Replaces an existing symlink. A real file or directory at the destination is
+# moved to <dest>.bak (timestamped if a .bak already exists) and recorded in the
+# failure log, then the link is made. Claude Code rewrites ~/.claude/settings.json
+# in place, turning the link into a real file, which is the usual way this happens.
 function mkLink() {
   if [[ -e "$2" && ! -L "$2" ]]; then
-    echo "File already exists: $2"
-  else
-    if [[ -L "$2" ]]; then
-      rm "$2"
-    fi
-    /bin/ln -s "$1" "$2"
+    local backup="$2.bak"
+    [[ -e "$backup" ]] && backup="$2.bak.$(date +%Y%m%d%H%M%S)"
+    /bin/mv "$2" "$backup"
+    echo "Backed up existing file: $2 -> $backup"
+    echo "installscript: $2 was a real file, moved to $backup before linking" >> "$DOTFILES_FAILURES"
+  elif [[ -L "$2" ]]; then
+    rm "$2"
   fi
+  /bin/ln -s "$1" "$2"
 }
 
 function mkDirectory() {
